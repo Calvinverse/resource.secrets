@@ -30,7 +30,7 @@
             "output_directory": "{{ user `dir_temp` }}/test-{{ user `vm_name` }}",
             "ram_size": "{{ user `vm_ram_size_in_mb` }}",
             "secondary_iso_images": [
-                "{{ user `dir_deploy` }}/resource.hashi.server-test-provision.iso"
+                "{{ user `dir_deploy` }}/resource.secrets-test-provision.iso"
             ],
             "shutdown_command": "echo '{{user `admin_password`}}' | sudo -S -E shutdown -P now",
             "shutdown_timeout": "5m",

@@ -1,4 +1,6 @@
 {
+    "bootstrap_expect": 1,
+
     "datacenter": "test-integration",
     "domain": "integrationtest",
 
