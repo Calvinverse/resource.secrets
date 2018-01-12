@@ -34,10 +34,17 @@ file '/etc/vault/server.hcl' do
       address = "127.0.0.1:8500"
       path = "vault/"
       scheme = "http"
+      service = "secrets"
     }
 
     ha_backend "consul" {
       disable_clustering = "false"
+    }
+
+    listener "tcp" {
+      address         = "0.0.0.0:8200"
+      cluster_address = "0.0.0.0:8201"
+      tls_disable = 1
     }
   HCL
 end
