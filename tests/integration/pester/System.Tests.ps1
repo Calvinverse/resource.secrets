@@ -1,7 +1,7 @@
 Describe 'On the system' {
     Context 'the machine name' {
         It 'should be a generated name with containing the version number and random characters' {
-            hostname | Should Match '^(cv-hashi-server.*)-\d{1,2}-\d{1,3}-\d{1,3}-.{16}$'
+            hostname | Should Match '^(cv-secrets.*)-\d{1,2}-\d{1,3}-\d{1,3}-.{16}$'
         }
     }
 
@@ -35,7 +35,7 @@ Describe 'On the system' {
 
     Context 'the administrator rights' {
         It 'should have default sudo settings' {
-            (Get-FileHash -Path /etc/sudoers -Algorithm SHA256).Hash | Should Be 'CC61F3AA6C9AF8F9540435AC280D6AD1AD0A734FDCAC6D855527F9944ABB67A3'
+            (Get-FileHash -Path /etc/sudoers -Algorithm SHA256).Hash | Should Be '1DA6E2BCBBA35669C9EB62370C88F4017686309C9AC4E6458D963321EAD42439'
         }
 
         It 'should not have additional sudo files' {
@@ -71,13 +71,13 @@ Describe 'On the system' {
         )
 
         It 'should have a file with updates' {
-            '/tmp/updates.txt' | Should Exist
+            '/test/updates.txt' | Should Exist
         }
 
-        $fileSize = (Get-Item '/tmp/updates.txt').Length
+        $fileSize = (Get-Item '/test/updates.txt').Length
         if ($fileSize -gt 0)
         {
-            $updates = Get-Content /tmp/updates.txt
+            $updates = Get-Content /test/updates.txt
             $additionalPackages = Compare-Object $allowedPackages $updates | Where-Object { $_.sideindicator -eq '=>' }
 
             It 'should all be installed' {
