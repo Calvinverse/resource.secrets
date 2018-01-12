@@ -86,14 +86,16 @@
         {
             "expect_disconnect": false,
             "inline": [
-                "echo '{{user `admin_password`}}' | sudo -S -E powershell -Command '. /test/pester/consul/Set-ConsulKV.ps1; Set-ConsulKV'"
+                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '. /test/pester/consul/Set-ConsulKV.ps1; Set-ConsulKV'"
             ],
             "type": "shell"
         },
         {
             "expect_disconnect": false,
             "inline": [
-                "echo '{{user `admin_password`}}' | sudo -S -E powershell -Command '$ErrorActionPreference = \"Stop\"; $result = Invoke-Pester -Script /test/pester/* -PassThru; exit $result.FailedCount '"
+                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '$ErrorActionPreference = \"Stop\"; Set-PSRepository -Name PSGallery -InstallationPolicy Trusted '",
+                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '$ErrorActionPreference = \"Stop\"; Install-Module Pester '",
+                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '$ErrorActionPreference = \"Stop\"; $result = Invoke-Pester -Script /test/pester/* -PassThru; exit $result.FailedCount '"
             ],
             "type": "shell"
         }
