@@ -38,6 +38,9 @@ default['hashicorp-vault']['config']['habackend_options']['scheme'] = 'http'
 
 default['hashicorp-vault']['config']['tls_disable'] = true
 
+default['hashicorp-vault']['service_user'] = 'vault'
+default['hashicorp-vault']['service_group'] = 'vault'
+
 default['hashicorp-vault']['consul_template_metrics_file'] = 'vault_metrics.ctmpl'
 default['hashicorp-vault']['consul_template_region_file'] = 'vault_region.ctmpl'
 
