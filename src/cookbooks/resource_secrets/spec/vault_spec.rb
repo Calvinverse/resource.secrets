@@ -7,9 +7,9 @@ describe 'resource_secrets::vault' do
     let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
     vault_client_config_content = <<~HCL
-      backend "consul" {
+      storage "consul" {
         address = "127.0.0.1:8500"
-        path = "vault/"
+        path = "data/services/secrets/"
         scheme = "http"
         service = "secrets"
       }

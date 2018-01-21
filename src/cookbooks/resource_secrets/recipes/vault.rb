@@ -30,9 +30,9 @@ end
 file '/etc/vault/server.hcl' do
   action :create
   content <<~HCL
-    backend "consul" {
+    storage "consul" {
       address = "127.0.0.1:8500"
-      path = "vault/"
+      path = "data/services/secrets/"
       scheme = "http"
       service = "secrets"
     }
