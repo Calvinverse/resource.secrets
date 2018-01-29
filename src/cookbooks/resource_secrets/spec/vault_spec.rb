@@ -48,7 +48,7 @@ describe 'resource_secrets::vault' do
     end
   end
 
-  context 'configures the firewall for consul' do
+  context 'configures the firewall for vault' do
     let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
     it 'opens the Vault HTTP port' do
