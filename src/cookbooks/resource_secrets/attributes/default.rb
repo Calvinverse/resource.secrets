@@ -33,7 +33,7 @@ default['hashicorp-vault']['config']['habackend_type'] = 'consul'
 default['hashicorp-vault']['config']['habackend_options']['address'] = '127.0.0.1:8500'
 default['hashicorp-vault']['config']['habackend_options']['check_timeout'] = '10s'
 default['hashicorp-vault']['config']['habackend_options']['disable_registration'] = false
-default['hashicorp-vault']['config']['habackend_options']['path'] = 'vault/'
+default['hashicorp-vault']['config']['habackend_options']['path'] = 'data/services/vault/'
 default['hashicorp-vault']['config']['habackend_options']['scheme'] = 'http'
 
 default['hashicorp-vault']['config']['tls_disable'] = true
