@@ -38,6 +38,7 @@ WantedBy=multi-user.target
 
 [Service]
 ExecStart=/usr/local/bin/consul-template -config=/etc/consul-template.d/conf
+EnvironmentFile=/etc/environment
 Restart=on-failure
 
 '@

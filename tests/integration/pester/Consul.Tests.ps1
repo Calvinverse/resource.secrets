@@ -9,6 +9,10 @@ Describe 'The consul application' {
         }
 
         It 'with environment configuration in /etc/consul/conf.d' {
+            '/etc/consul/conf.d/bootstrap.json' | Should NOT Exist
+
+            '/etc/consul/conf.d/location.json' | Should Exist
+            '/etc/consul/conf.d/metrics.json' | Should Exist
             '/etc/consul/conf.d/region.json' | Should Exist
             '/etc/consul/conf.d/secrets.json' | Should Exist
         }
@@ -68,6 +72,10 @@ WantedBy=multi-user.target
         It 'responds to HTTP calls' {
             $response.StatusCode | Should Be 200
             $agentInformation | Should Not Be $null
+        }
+
+        It 'is not a server instance' {
+            $agentInformation.Config.Server | Should Be $false
         }
     }
 }

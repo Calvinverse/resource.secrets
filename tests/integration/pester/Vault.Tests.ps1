@@ -9,6 +9,7 @@ Describe 'The vault application' {
         }
 
         It 'with environment configuration in /etc/vault/conf.d' {
+            '/etc/vault/conf.d/metrics.hcl' | Should Exist
             '/etc/vault/conf.d/region.hcl' | Should Exist
         }
     }
