@@ -31,6 +31,7 @@ describe 'resource_secrets::vault' do
 
     vault_metrics_content = <<~CONF
       telemetry {
+          disable_hostname = true
           statsd_address = "localhost:8125"
       }
     CONF
