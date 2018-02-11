@@ -14,10 +14,6 @@ describe 'resource_secrets::vault' do
         service = "secrets"
       }
 
-      ha_backend "consul" {
-        disable_clustering = "false"
-      }
-
       listener "tcp" {
         address         = "0.0.0.0:8200"
         cluster_address = "0.0.0.0:8201"
