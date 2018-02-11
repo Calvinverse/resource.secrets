@@ -8,7 +8,8 @@
 #
 
 # Configure the service user under which vault will be run
-poise_service_user node['hashicorp-vault']['service_user'] do
+vault_user = node['hashicorp-vault']['service_user']
+poise_service_user vault_user do
   group node['hashicorp-vault']['service_group']
 end
 
@@ -83,15 +84,14 @@ systemd_service 'vault' do
   install do
     wanted_by %w[multi-user.target]
   end
+  requires %w[network-online.target]
   service do
     exec_start '/usr/local/bin/vault server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d'
     restart 'on-failure'
   end
-  requires %w[network-online.target]
+  user vault_user
 end
 
-# Make sure the vault service doesn't start automatically. This will be changed
-# after we have provisioned the box
 service 'vault' do
   action :enable
 end
