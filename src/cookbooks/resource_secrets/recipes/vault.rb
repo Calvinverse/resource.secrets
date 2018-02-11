@@ -52,7 +52,7 @@ file "#{vault_config_path}/#{vault_metrics_file}" do
   content <<~CONF
     telemetry {
         disable_hostname = true
-        statsd_address = "localhost:8125"
+        statsd_address = "127.0.0.1:8125"
     }
   CONF
   mode '755'

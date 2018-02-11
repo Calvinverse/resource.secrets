@@ -28,7 +28,7 @@ describe 'resource_secrets::vault' do
     vault_metrics_content = <<~CONF
       telemetry {
           disable_hostname = true
-          statsd_address = "localhost:8125"
+          statsd_address = "127.0.0.1:8125"
       }
     CONF
     it 'creates vault metrics file in the vault configuration directory' do
