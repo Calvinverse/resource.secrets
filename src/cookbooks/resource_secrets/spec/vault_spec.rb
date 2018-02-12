@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 describe 'resource_secrets::vault' do
+  before do
+    stub_command('getcap $(readlink -f $(which vault))|grep cap_ipc_lock+ep').and_return(false)
+  end
+
   context 'creates the vault configuration files' do
     let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
@@ -52,6 +56,16 @@ describe 'resource_secrets::vault' do
 
     it 'enable the vault service' do
       expect(chef_run).to enable_service('vault')
+    end
+
+    it 'installs the libcap2-bin package' do
+      expect(chef_run).to install_package('libcap2-bin')
+    end
+
+    it 'allows vault to invoke mlock' do
+      expect(chef_run).to run_execute('allow vault to lock memory').with(
+        command: 'setcap cap_ipc_lock=+ep $(readlink -f $(which vault))'
+      )
     end
   end
 

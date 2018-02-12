@@ -72,6 +72,7 @@ end
 # Create the systemd service for vault. Set it to depend on the network being up
 # so that it won't start unless the network stack is initialized and has an
 # IP address
+vault_install_path = '/usr/local/bin/vault'
 systemd_service 'vault' do
   action :create
   after %w[network-online.target]
@@ -82,7 +83,7 @@ systemd_service 'vault' do
   end
   requires %w[network-online.target]
   service do
-    exec_start '/usr/local/bin/vault server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d'
+    exec_start "#{vault_install_path} server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d"
     restart 'on-failure'
   end
   user vault_user
@@ -90,6 +91,21 @@ end
 
 service 'vault' do
   action :enable
+end
+
+#
+# ALLOW VAULT TO LOCK MEMORY WITH MLOCK
+#
+# See: https://www.vaultproject.io/guides/operations/production.html
+
+package 'libcap2-bin' do
+  action :install
+end
+
+execute 'allow vault to lock memory' do
+  action :run
+  command 'setcap cap_ipc_lock=+ep $(readlink -f $(which vault))'
+  not_if 'getcap $(readlink -f $(which vault))|grep cap_ipc_lock+ep'
 end
 
 #
