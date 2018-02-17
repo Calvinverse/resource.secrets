@@ -35,6 +35,7 @@ WantedBy=multi-user.target
 
 [Service]
 ExecStart=/usr/local/bin/vault server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d
+User=vault
 Restart=on-failure
 
 '@
