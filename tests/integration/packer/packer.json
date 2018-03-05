@@ -7,6 +7,8 @@
         "dir_http_user": null,
         "dir_temp": null,
 
+        "product_name": "not_really_a_product_name",
+
         "vm_name": "not_really_a_vm_name",
         "vm_ram_size_in_mb": "1024",
         "vm_switch_name": "this_switch_does_not_exist",
@@ -30,7 +32,7 @@
             "output_directory": "{{ user `dir_temp` }}/test-{{ user `vm_name` }}",
             "ram_size": "{{ user `vm_ram_size_in_mb` }}",
             "secondary_iso_images": [
-                "{{ user `dir_deploy` }}/resource.secrets-test-provision.iso"
+                "{{ user `dir_deploy` }}/{{ user `product_name` }}-test-provision.iso"
             ],
             "shutdown_command": "echo '{{user `admin_password`}}' | sudo -S -E shutdown -P now",
             "shutdown_timeout": "5m",
