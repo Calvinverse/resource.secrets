@@ -9,7 +9,7 @@ Describe 'The consul-template application' {
         }
 
         It 'with vault configuration in /etc/consul-template.d/config/vault.hcl' {
-            '/etc/consul-template.d/conf/vault.hcl' | Should Exist
+            '/etc/consul-template.d/conf/vault.hcl' | Should Not Exist
         }
 
         It 'with a data directory in /etc/consul-template.d/data' {
@@ -38,6 +38,11 @@ WantedBy=multi-user.target
 
 [Service]
 ExecStart=/usr/local/bin/consul-template -config=/etc/consul-template.d/conf
+EnvironmentFile=/etc/environment
+KillMode=mixed
+KillSignal=SIGQUIT
+PIDFile=/etc/consul-template.d/data/pid
+ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 
 '@

@@ -2,3 +2,4 @@ packages/
 build/
 berks/
 src/cookbooks/resource_secrets/.bundle/
+src/cookbooks/resource_secrets/Gemfile.lock

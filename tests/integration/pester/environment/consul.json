@@ -4,7 +4,7 @@
     "datacenter": "test-integration",
     "domain": "integrationtest",
 
-    "data_dir": "/test/pester/consul/data",
+    "data_dir": "/test/consul/data",
 
     "log_level": "INFO",
 

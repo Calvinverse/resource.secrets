@@ -27,18 +27,20 @@ default['firewall']['ipv6_enabled'] = false
 # VAULT
 #
 
-default['hashicorp-vault']['version'] = '0.9.1'
+default['hashicorp-vault']['version'] = '0.9.3'
 
 default['hashicorp-vault']['config']['habackend_type'] = 'consul'
 default['hashicorp-vault']['config']['habackend_options']['address'] = '127.0.0.1:8500'
 default['hashicorp-vault']['config']['habackend_options']['check_timeout'] = '10s'
 default['hashicorp-vault']['config']['habackend_options']['disable_registration'] = false
-default['hashicorp-vault']['config']['habackend_options']['path'] = 'vault/'
+default['hashicorp-vault']['config']['habackend_options']['path'] = 'data/services/vault/'
 default['hashicorp-vault']['config']['habackend_options']['scheme'] = 'http'
 
 default['hashicorp-vault']['config']['tls_disable'] = true
 
-default['hashicorp-vault']['consul_template_metrics_file'] = 'vault_metrics.ctmpl'
+default['hashicorp-vault']['service_user'] = 'vault'
+default['hashicorp-vault']['service_group'] = 'vault'
+
 default['hashicorp-vault']['consul_template_region_file'] = 'vault_region.ctmpl'
 
 default['hashicorp-vault']['metrics_file'] = 'metrics.hcl'

@@ -85,6 +85,18 @@ describe 'resource_secrets::firewall' do
     end
   end
 
+  context 'configures the firewall for statsd' do
+    let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
+
+    it 'opens the Statsd port' do
+      expect(chef_run).to create_firewall_rule('telegraf-statsd').with(
+        command: :allow,
+        dest_port: 8125,
+        direction: :in
+      )
+    end
+  end
+
   context 'configures the firewall for unbound' do
     let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 

@@ -7,8 +7,10 @@
         "dir_http_user": null,
         "dir_temp": null,
 
+        "product_name": "not_really_a_product_name",
+
         "vm_name": "not_really_a_vm_name",
-        "vm_ram_size_in_mb": "2048",
+        "vm_ram_size_in_mb": "1024",
         "vm_switch_name": "this_switch_does_not_exist",
         "vm_switch_vlan": ""
     },
@@ -30,7 +32,7 @@
             "output_directory": "{{ user `dir_temp` }}/test-{{ user `vm_name` }}",
             "ram_size": "{{ user `vm_ram_size_in_mb` }}",
             "secondary_iso_images": [
-                "{{ user `dir_deploy` }}/resource.secrets-test-provision.iso"
+                "{{ user `dir_deploy` }}/{{ user `product_name` }}-test-provision.iso"
             ],
             "shutdown_command": "echo '{{user `admin_password`}}' | sudo -S -E shutdown -P now",
             "shutdown_timeout": "5m",
@@ -48,7 +50,7 @@
         {
             "expect_disconnect" : true,
             "inline": [
-                "echo \"Waited for reboot after provisioning ...\""
+                "echo \"Waiting for reboot after provisioning ...\""
             ],
             "pause_before" : "30s",
             "type": "shell"
@@ -61,7 +63,7 @@
             "type": "shell"
         },
         {
-            "destination": "/test/pester",
+            "destination": "/test/pester/",
             "source": "{{ user `dir_temp` }}/tests/integration/pester",
             "type": "file"
         },
@@ -75,18 +77,20 @@
         {
             "expect_disconnect": false,
             "inline": [
+                "echo '{{user `admin_password`}}' | sudo -S -E apt-get update",
                 "echo '{{user `admin_password`}}' | sudo -S -E apt install --assume-yes curl",
                 "curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -",
                 "curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft.list",
                 "echo '{{user `admin_password`}}' | sudo -S -E apt-get update",
-                "echo '{{user `admin_password`}}' | sudo -S -E apt-get install --assume-yes powershell"
+                "echo '{{user `admin_password`}}' | sudo -S -E apt-get install --assume-yes powershell",
+                "echo '{{user `admin_password`}}' | sudo -S -E apt-get install --assume-yes unzip"
             ],
             "type": "shell"
         },
         {
             "expect_disconnect": false,
             "inline": [
-                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '. /test/pester/consul/Set-ConsulKV.ps1; Set-ConsulKV'"
+                "echo '{{user `admin_password`}}' | sudo -S -E pwsh -Command '. /test/pester/environment/Initialize-Environment.ps1; Initialize-Environment'"
             ],
             "type": "shell"
         },

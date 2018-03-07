@@ -7,8 +7,6 @@
         <file src="${DirTestsIntegration}\provision\shared\consul\*.*" target="consul" />
         <file src="${DirTestsIntegration}\provision\shared\consul\client\*.*" target="consul\client" />
 
-        <file src="${DirTestsIntegration}\provision\shared\consul-template\*.*" target="consul-template" />
-
         <file src="${DirTestsIntegration}\provision\shared\unbound\*.*" target="unbound" />
 
         <file src="${DirTestsIntegration}\provision\shared\*.json" target="" />

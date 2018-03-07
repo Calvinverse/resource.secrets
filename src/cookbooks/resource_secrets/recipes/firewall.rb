@@ -84,6 +84,17 @@ firewall_rule 'consul-serf-wan-udp' do
 end
 
 #
+# TELEGRAF
+#
+
+firewall_rule 'telegraf-statsd' do
+  command :allow
+  description 'Allow Telegraf statsd traffic'
+  dest_port 8125
+  direction :in
+end
+
+#
 # UNBOUND
 #
 
