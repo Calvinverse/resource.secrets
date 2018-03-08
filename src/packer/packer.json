@@ -3,7 +3,7 @@
         "admin_username": "admin",
         "admin_password": "admin",
 
-        "cookbook_name": "not_realy_a_cookbook_name",
+        "cookbook_name": "not_really_a_cookbook_name",
 
         "dir_cookbooks_src": "src/cookbooks",
         "dir_cookbooks_vendors": "packages/vendor/cookbooks",
@@ -15,7 +15,8 @@
         "vm_import_directory": null,
         "vm_name": "not_really_a_vm_name",
         "vm_ram_size_in_mb": "1024",
-        "vm_switch_name": "internal_switch"
+        "vm_switch_name": "this_switch_does_not_exist",
+        "vm_switch_vlan": ""
     },
     "builders": [
         {
