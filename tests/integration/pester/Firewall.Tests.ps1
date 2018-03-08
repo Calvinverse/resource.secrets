@@ -66,7 +66,7 @@ Describe 'The firewall' {
     }
 
     Context 'should allow vault' {
-        It 'on port 8200'{
+        It 'on port 8200' {
             ($ufwOutput | Where-Object {$_ -match '(8200/tcp)\s*(ALLOW)\s*(Anywhere)'} ) | Should Not Be $null
         }
 
