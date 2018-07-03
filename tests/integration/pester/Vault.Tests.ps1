@@ -24,19 +24,19 @@ Describe 'The vault application' {
         }
 
         $expectedContent = @'
+[Service]
+ExecStart = /usr/local/bin/vault server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d
+Restart = on-failure
+User = vault
+
 [Unit]
-Description=Vault
-Requires=network-online.target
-After=network-online.target
-Documentation=https://vaultproject.io
+Description = Vault
+Documentation = https://vaultproject.io
+Requires = network-online.target
+After = network-online.target
 
 [Install]
-WantedBy=multi-user.target
-
-[Service]
-ExecStart=/usr/local/bin/vault server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d
-User=vault
-Restart=on-failure
+WantedBy = multi-user.target
 
 '@
         $serviceFileContent = Get-Content $serviceConfigurationPath | Out-String

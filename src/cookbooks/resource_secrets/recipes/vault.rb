@@ -75,18 +75,20 @@ end
 vault_install_path = '/usr/local/bin/vault'
 systemd_service 'vault' do
   action :create
-  after %w[network-online.target]
-  description 'Vault'
-  documentation 'https://vaultproject.io'
   install do
     wanted_by %w[multi-user.target]
   end
-  requires %w[network-online.target]
   service do
     exec_start "#{vault_install_path} server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d"
     restart 'on-failure'
+    user vault_user
   end
-  user vault_user
+  unit do
+    after %w[network-online.target]
+    description 'Vault'
+    documentation 'https://vaultproject.io'
+    requires %w[network-online.target]
+  end
 end
 
 service 'vault' do

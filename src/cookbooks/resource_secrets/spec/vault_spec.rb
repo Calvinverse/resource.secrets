@@ -47,10 +47,10 @@ describe 'resource_secrets::vault' do
     it 'installs the vault service' do
       expect(chef_run).to create_systemd_service('vault').with(
         action: [:create],
-        after: %w[network-online.target],
-        description: 'Vault',
-        documentation: 'https://vaultproject.io',
-        requires: %w[network-online.target]
+        unit_after: %w[network-online.target],
+        unit_description: 'Vault',
+        unit_documentation: 'https://vaultproject.io',
+        unit_requires: %w[network-online.target]
       )
     end
 
