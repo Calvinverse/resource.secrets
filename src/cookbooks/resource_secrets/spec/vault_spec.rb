@@ -27,6 +27,11 @@ describe 'resource_secrets::vault' do
     it 'creates server.hcl in the vault configuration directory' do
       expect(chef_run).to create_file('/etc/vault/server.hcl')
         .with_content(vault_client_config_content)
+        .with(
+          group: 'vault',
+          owner: 'vault',
+          mode: '0550'
+        )
     end
 
     vault_metrics_content = <<~CONF
@@ -38,6 +43,11 @@ describe 'resource_secrets::vault' do
     it 'creates vault metrics file in the vault configuration directory' do
       expect(chef_run).to create_file('/etc/vault/conf.d/metrics.hcl')
         .with_content(vault_metrics_content)
+        .with(
+          group: 'vault',
+          owner: 'vault',
+          mode: '0550'
+        )
     end
   end
 
@@ -47,10 +57,10 @@ describe 'resource_secrets::vault' do
     it 'installs the vault service' do
       expect(chef_run).to create_systemd_service('vault').with(
         action: [:create],
-        after: %w[network-online.target],
-        description: 'Vault',
-        documentation: 'https://vaultproject.io',
-        requires: %w[network-online.target]
+        unit_after: %w[network-online.target],
+        unit_description: 'Vault',
+        unit_documentation: 'https://vaultproject.io',
+        unit_requires: %w[network-online.target]
       )
     end
 
@@ -98,6 +108,11 @@ describe 'resource_secrets::vault' do
     it 'creates vault region template file in the consul-template template directory' do
       expect(chef_run).to create_file('/etc/consul-template.d/templates/vault_region.ctmpl')
         .with_content(vault_region_template_content)
+        .with(
+          group: 'root',
+          owner: 'root',
+          mode: '0550'
+        )
     end
 
     consul_template_vault_region_content = <<~CONF
@@ -123,7 +138,7 @@ describe 'resource_secrets::vault' do
         # command will only run if the resulting template changes. The command must
         # return within 30s (configurable), and it must have a successful exit code.
         # Consul Template is not a replacement for a process monitor or init system.
-        command = "systemctl restart vault"
+        command = "/bin/bash -c 'chown vault:vault /etc/vault/conf.d/region.hcl && systemctl restart vault'"
 
         # This is the maximum amount of time to wait for the optional command to
         # return. Default is 30s.
@@ -139,7 +154,7 @@ describe 'resource_secrets::vault' do
         # unspecified, Consul Template will attempt to match the permissions of the
         # file that already exists at the destination path. If no file exists at that
         # path, the permissions are 0644.
-        perms = 0755
+        perms = 0550
 
         # This option backs up the previously rendered template at the destination
         # path before writing a new one. It keeps exactly one backup. This option is
@@ -168,6 +183,11 @@ describe 'resource_secrets::vault' do
     it 'creates vault_region.hcl in the consul-template template directory' do
       expect(chef_run).to create_file('/etc/consul-template.d/conf/vault_region.hcl')
         .with_content(consul_template_vault_region_content)
+        .with(
+          group: 'root',
+          owner: 'root',
+          mode: '0550'
+        )
     end
   end
 end
