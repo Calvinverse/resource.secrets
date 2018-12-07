@@ -14,18 +14,18 @@ poise_service_user vault_user do
 end
 
 directory '/etc/vault' do
-  owner 'root'
-  group 'root'
-  mode '0755'
   action :create
+  group node['hashicorp-vault']['service_group']
+  mode '0750'
+  owner vault_user
 end
 
 vault_config_path = '/etc/vault/conf.d'
 directory vault_config_path do
-  owner 'root'
-  group 'root'
-  mode '0755'
   action :create
+  group node['hashicorp-vault']['service_group']
+  mode '0750'
+  owner vault_user
 end
 
 file '/etc/vault/server.hcl' do
@@ -44,6 +44,9 @@ file '/etc/vault/server.hcl' do
       tls_disable = 1
     }
   HCL
+  group node['hashicorp-vault']['service_group']
+  mode '0550'
+  owner vault_user
 end
 
 vault_metrics_file = node['hashicorp-vault']['metrics_file']
@@ -55,7 +58,9 @@ file "#{vault_config_path}/#{vault_metrics_file}" do
         statsd_address = "127.0.0.1:8125"
     }
   CONF
-  mode '755'
+  group node['hashicorp-vault']['service_group']
+  mode '0550'
+  owner vault_user
 end
 
 #
@@ -75,18 +80,20 @@ end
 vault_install_path = '/usr/local/bin/vault'
 systemd_service 'vault' do
   action :create
-  after %w[network-online.target]
-  description 'Vault'
-  documentation 'https://vaultproject.io'
   install do
     wanted_by %w[multi-user.target]
   end
-  requires %w[network-online.target]
   service do
     exec_start "#{vault_install_path} server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d"
     restart 'on-failure'
+    user vault_user
   end
-  user vault_user
+  unit do
+    after %w[network-online.target]
+    description 'Vault'
+    documentation 'https://vaultproject.io'
+    requires %w[network-online.target]
+  end
 end
 
 service 'vault' do
@@ -139,7 +146,9 @@ file "#{consul_template_template_path}/#{vault_region_template_file}" do
   content <<~CONF
     cluster_name = "{{ keyOrDefault "config/services/consul/datacenter" "unknown" }}"
   CONF
-  mode '755'
+  group 'root'
+  mode '0550'
+  owner 'root'
 end
 
 vault_region_file = node['hashicorp-vault']['region_file']
@@ -168,7 +177,7 @@ file "#{consul_template_config_path}/vault_region.hcl" do
       # command will only run if the resulting template changes. The command must
       # return within 30s (configurable), and it must have a successful exit code.
       # Consul Template is not a replacement for a process monitor or init system.
-      command = "systemctl restart vault"
+      command = "/bin/bash -c 'chown #{vault_user}:#{node['hashicorp-vault']['service_group']} #{vault_config_path}/#{vault_region_file} && systemctl restart vault'"
 
       # This is the maximum amount of time to wait for the optional command to
       # return. Default is 30s.
@@ -184,7 +193,7 @@ file "#{consul_template_config_path}/vault_region.hcl" do
       # unspecified, Consul Template will attempt to match the permissions of the
       # file that already exists at the destination path. If no file exists at that
       # path, the permissions are 0644.
-      perms = 0755
+      perms = 0550
 
       # This option backs up the previously rendered template at the destination
       # path before writing a new one. It keeps exactly one backup. This option is
@@ -210,5 +219,7 @@ file "#{consul_template_config_path}/vault_region.hcl" do
       }
     }
   HCL
-  mode '755'
+  group 'root'
+  mode '0550'
+  owner 'root'
 end
