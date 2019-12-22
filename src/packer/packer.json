@@ -51,16 +51,6 @@
     ],
     "provisioners": [
         {
-            "command": "Set-VM -Name {{ user `vm_name` }} -AutomaticCheckpointsEnabled $false",
-            "execute_command": ["Powershell.exe", "-NonInteractive", "-NoLogo", "-NoProfile", "-Command", "{{.Command}}"],
-            "type": "shell-local"
-        },
-        {
-            "command": "Get-VMSnapshot -VMName {{ user `vm_name` }} | Remove-VMSnapshot",
-            "execute_command": ["Powershell.exe", "-NonInteractive", "-NoLogo", "-NoProfile", "-Command", "{{.Command}}"],
-            "type": "shell-local"
-        },
-        {
             "destination": "/tmp/unbound_zones.conf",
             "source": "{{ user `dir_src_provisioning` }}/unbound_zones.conf",
             "type": "file"
