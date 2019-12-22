@@ -15,17 +15,17 @@ end
 
 directory '/etc/vault' do
   action :create
-  group node['hashicorp-vault']['service_group']
-  mode '0750'
-  owner vault_user
+  group 'root'
+  mode '0755'
+  owner 'root'
 end
 
 vault_config_path = '/etc/vault/conf.d'
 directory vault_config_path do
   action :create
-  group node['hashicorp-vault']['service_group']
-  mode '0750'
-  owner vault_user
+  group 'root'
+  mode '0755'
+  owner 'root'
 end
 
 file '/etc/vault/server.hcl' do
@@ -43,6 +43,8 @@ file '/etc/vault/server.hcl' do
       cluster_address = "0.0.0.0:8201"
       tls_disable = 1
     }
+
+    ui = true
   HCL
   group node['hashicorp-vault']['service_group']
   mode '0550'
@@ -193,7 +195,7 @@ file "#{consul_template_config_path}/vault_region.hcl" do
       # unspecified, Consul Template will attempt to match the permissions of the
       # file that already exists at the destination path. If no file exists at that
       # path, the permissions are 0644.
-      perms = 0550
+      perms = 0755
 
       # This option backs up the previously rendered template at the destination
       # path before writing a new one. It keeps exactly one backup. This option is
