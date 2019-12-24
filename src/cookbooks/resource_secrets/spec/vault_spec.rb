@@ -23,6 +23,8 @@ describe 'resource_secrets::vault' do
         cluster_address = "0.0.0.0:8201"
         tls_disable = 1
       }
+
+      ui = true
     HCL
     it 'creates server.hcl in the vault configuration directory' do
       expect(chef_run).to create_file('/etc/vault/server.hcl')

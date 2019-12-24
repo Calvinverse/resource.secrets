@@ -15,17 +15,17 @@ end
 
 directory '/etc/vault' do
   action :create
-  group node['hashicorp-vault']['service_group']
-  mode '0750'
-  owner vault_user
+  group 'root'
+  mode '0755'
+  owner 'root'
 end
 
 vault_config_path = '/etc/vault/conf.d'
 directory vault_config_path do
   action :create
-  group node['hashicorp-vault']['service_group']
-  mode '0750'
-  owner vault_user
+  group 'root'
+  mode '0755'
+  owner 'root'
 end
 
 file '/etc/vault/server.hcl' do
@@ -43,6 +43,8 @@ file '/etc/vault/server.hcl' do
       cluster_address = "0.0.0.0:8201"
       tls_disable = 1
     }
+
+    ui = true
   HCL
   group node['hashicorp-vault']['service_group']
   mode '0550'
