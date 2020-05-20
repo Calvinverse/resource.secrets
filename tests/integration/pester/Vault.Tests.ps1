@@ -61,11 +61,7 @@ WantedBy = multi-user.target
     }
 
     Context 'can be contacted' {
-        $ifConfigResponse = & ifconfig eth0
-        $line = $ifConfigResponse[1].Trim()
-        # Expecting line to be:
-        #     inet addr:192.168.6.46  Bcast:192.168.6.255  Mask:255.255.255.0
-        $localIpAddress = $line.SubString(10, ($line.IndexOf(' ', 10) - 10))
+        $localIpAddress = & ip a show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
 
         try
         {

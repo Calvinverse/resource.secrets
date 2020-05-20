@@ -27,7 +27,7 @@ default['firewall']['ipv6_enabled'] = false
 # VAULT
 #
 
-default['hashicorp-vault']['version'] = '1.0.1'
+default['hashicorp-vault']['version'] = '1.3.2'
 
 default['hashicorp-vault']['config']['habackend_type'] = 'consul'
 default['hashicorp-vault']['config']['habackend_options']['address'] = '127.0.0.1:8500'
