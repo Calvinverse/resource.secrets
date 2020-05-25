@@ -112,8 +112,19 @@
         Additional parameters can be provided through the 'TemplateTokens' ItemGroup below.
     -->
     <ItemGroup Condition=" '$(ShouldLoadTestFilesToGenerate)' == 'true' ">
+        <TestFilesToGenerate
+            Condition=" '$(ShouldCreateAzureImage)' == 'true' "
+            Include="$(DirBuildTempTestsIntegrationPacker)\azure.json">
+            <Template>$(DirTestsIntegrationPacker)\azure.json</Template>
             <Encoding></Encoding>
         </TestFilesToGenerate>
+        <TestFilesToGenerate
+            Condition=" '$(ShouldCreateAzureImage)' == 'true' "
+            Include="$(DirBuildTempTestsIntegrationPacker)\azure_variables.json">
+            <Template>$(DirTestsIntegrationPacker)\azure_variables.json</Template>
+            <Encoding></Encoding>
+        </TestFilesToGenerate>
+
         <TestFilesToGenerate
             Condition=" '$(ShouldCreateHyperVImage)' == 'true' "
             Include="$(DirBuildTempTestsIntegrationPacker)\hyperv.json">
@@ -179,6 +190,14 @@
     <!--
         **** INTEGRATION - PACKER ****
     -->
+    <PropertyGroup>
+        <!-- Indicate that packer should remove an existing image before building the new image. -->
+        <PackerForceRemoveOldImage Condition=" '$(ShouldCreateAzureImage)' == 'true' ">true</PackerForceRemoveOldImage>
+
+        <!-- Indicate that packer should keep the image if an error occurs. -->
+        <PackerKeepImageOnError Condition=" '$(ShouldCreateAzureImage)' == 'true' ">false</PackerKeepImageOnError>
+    </PropertyGroup>
+
     <!--
         The item group defining the location and contents of the Packer files that are used during the test
         to validate the Packer images.
@@ -186,6 +205,13 @@
         All file paths allow build templates, e.g. $(DirBuildDeploy)\myarchive-${VersionSemantic}.zip.
     -->
     <ItemGroup Condition=" '$(ShouldLoadPackerImagesToTest)' == 'true' ">
+        <PackerImagesToTest
+            Condition=" '$(ShouldCreateAzureImage)' == 'true' "
+            Include="$(DirBuildTempTestsIntegrationPacker)\azure.json">
+            <Variables>
+                $(DirBuildTempTestsIntegrationPacker)\azure_variables.json
+            </Variables>
+        </PackerImagesToTest>
         <PackerImagesToTest
             Condition=" '$(ShouldCreateHyperVImage)' == 'true' "
             Include="$(DirBuildTempTestsIntegrationPacker)\hyperv.json">

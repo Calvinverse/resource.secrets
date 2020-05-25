@@ -234,7 +234,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <VersionLinuxBaseResource>1804.3.0</VersionLinuxBaseResource>
+        <VersionLinuxBaseResource>1804.4.0</VersionLinuxBaseResource>
     </PropertyGroup>
 
 
@@ -335,7 +335,7 @@
 
         Any failure during the branching process will stop the build process.
     -->
-    <ItemGroup>
+    <ItemGroup Condition=" '$(ShouldLoadBranchMergeTarget)' == 'true' ">
         <!-- GITFLOW: If the input branch (GitBranchExpected) is a feature branch then we merge to develop -->
         <!--
         <BranchMergeTarget Include="develop"
@@ -567,6 +567,10 @@
     </ItemGroup>
 
     <Import
+        Condition="Exists('$(MSBuildThisFileDirectory)packer.azure.props') AND '$(ShouldCreateAzureImage)' == 'true' "
+        Project="$(MSBuildThisFileDirectory)packer.azure.props" />
+
+    <Import
         Condition="Exists('$(MSBuildThisFileDirectory)packer.hyperv.props') AND '$(ShouldCreateHyperVImage)' == 'true' "
         Project="$(MSBuildThisFileDirectory)packer.hyperv.props" />
 
@@ -612,7 +616,7 @@
             The full path and version to the packer command line executable. If not defined the packages directory is searched.
         -->
         <ToolsExternalPackerPath>UNDEFINED</ToolsExternalPackerPath>
-        <ToolsExternalPackerVersion>1.3.4</ToolsExternalPackerVersion>
+        <ToolsExternalPackerVersion>1.5.6</ToolsExternalPackerVersion>
     </PropertyGroup>
 
 
@@ -628,7 +632,7 @@
     -->
 
     <PropertyGroup>
-        <OpsConfigurationVersion>0.3</OpsConfigurationVersion>
+        <OpsConfigurationVersion>1.0</OpsConfigurationVersion>
     </PropertyGroup>
 
     <!--
@@ -636,7 +640,7 @@
         NuGet if no package is specified in the packages.config file.
     -->
     <PropertyGroup>
-        <PackageMinimumVersion Condition=" '$(PackageMinimumVersion)' == '' ">1.0.0</PackageMinimumVersion>
+        <PackageMinimumVersion Condition=" '$(PackageMinimumVersion)' == '' ">1.1.0</PackageMinimumVersion>
         <PackageMaximumVersion Condition=" '$(PackageMaximumVersion)' == '' ">2.0.0</PackageMaximumVersion>
     </PropertyGroup>
 </Project>

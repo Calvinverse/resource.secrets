@@ -146,6 +146,19 @@
         </BuildFilesToGenerate>
 
         <BuildFilesToGenerate
+            Condition=" '$(ShouldCreateAzureImage)' == 'true' "
+            Include="$(DirBuildTemp)\build\azure.json">
+            <Template>$(DirSrcPacker)\azure.json</Template>
+            <Encoding></Encoding>
+        </BuildFilesToGenerate>
+        <BuildFilesToGenerate
+            Condition=" '$(ShouldCreateAzureImage)' == 'true' "
+            Include="$(DirBuildTemp)\build\azure_variables.json">
+            <Template>$(DirSrcPacker)\azure_variables.json</Template>
+            <Encoding></Encoding>
+        </BuildFilesToGenerate>
+
+        <BuildFilesToGenerate
             Condition=" '$(ShouldCreateHyperVImage)' == 'true' "
             Include="$(DirBuildTemp)\build\hyperv.json">
             <Template>$(DirSrcPacker)\hyperv.json</Template>
@@ -500,8 +513,11 @@
         **** PACKER - PACK ****
     -->
     <PropertyGroup>
+        <!-- Indicate that packer should remove an existing image before building the new image. -->
+        <PackerForceRemoveOldImage Condition=" '$(ShouldCreateAzureImage)' == 'true' ">true</PackerForceRemoveOldImage>
+
         <!-- Indicate that packer should keep the image if an error occurs. -->
-        <!-- <PackerKeepImageOnError>false</PackerKeepImageOnError> -->
+        <PackerKeepImageOnError Condition=" '$(ShouldCreateAzureImage)' == 'true' ">false</PackerKeepImageOnError>
     </PropertyGroup>
 
 
