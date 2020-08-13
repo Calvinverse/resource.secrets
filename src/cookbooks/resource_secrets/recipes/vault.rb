@@ -86,7 +86,7 @@ systemd_service 'vault' do
     wanted_by %w[multi-user.target]
   end
   service do
-    exec_start "#{vault_install_path} server -config=/etc/vault/server.hcl -config=/etc/vault/conf.d"
+    exec_start "#{vault_install_path} server -config=/etc/vault/server.hcl -config=#{vault_config_path}"
     restart 'on-failure'
     user vault_user
   end
