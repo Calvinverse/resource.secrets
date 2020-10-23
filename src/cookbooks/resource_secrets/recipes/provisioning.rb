@@ -27,9 +27,9 @@ file '/etc/provision.d/provision_image.sh' do
       sudo systemctl stop vault.service
 
       # Copy the vault server files if they exist
-      if [ -f #{provisioning_source_path}/vault/server/vault_auto_unseal.json ]; then
-        cp -a #{provisioning_source_path}/vault/server/vault_auto_unseal.json /etc/vault/conf.d/auto_unseal.json
-        dos2unix /etc/vault/conf.d/auto_unseal.json
+      if [ -f #{provisioning_source_path}/vault/server/vault_auto_unseal.hcl ]; then
+        cp -a #{provisioning_source_path}/vault/server/vault_auto_unseal.hcl /etc/vault/conf.d/auto_unseal.hcl
+        dos2unix /etc/vault/conf.d/auto_unseal.hcl
       fi
     }
   BASH
