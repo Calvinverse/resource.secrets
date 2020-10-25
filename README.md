@@ -5,7 +5,7 @@ instance of the [Vault](https://www.vaultproject.io/) secret management system.
 
 ## Image
 
-The image is created by using the [Linux base image](https://github.com/Calvinverse/base.linux)
+The image is created by using the [Linux base image](https://github.com/Calvinverse/base.vm.linux)
 and amending it using a [Chef](https://www.chef.io/chef/) cookbook which installs Vault.
 
 There are two different images that can be created. One for use on a Hyper-V server and one for use
