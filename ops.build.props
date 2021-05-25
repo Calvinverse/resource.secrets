@@ -93,7 +93,7 @@
     <ItemGroup Condition=" '$(ShouldLoadArchiveFilesToCopy)' == 'true' ">
         <ArchiveFilesToCopy
             Condition=" '$(ShouldCreateHyperVImage)' == 'true' "
-            Include="$(RepositoryArchive)\Base.Linux-$(VersionLinuxBaseResource).zip">
+            Include="$(RepositoryArchive)\Base.Vm.Linux-$(VersionLinuxBaseResource).zip">
             <Destination>$(DirBuildTempVmBase)</Destination>
         </ArchiveFilesToCopy>
     </ItemGroup>
