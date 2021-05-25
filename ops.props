@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project
     DefaultTargets="Run"
     ToolsVersion="14.0"
@@ -234,7 +234,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <VersionLinuxBaseResource>1804.4.0</VersionLinuxBaseResource>
+        <VersionLinuxBaseResource>1804.5.0</VersionLinuxBaseResource>
     </PropertyGroup>
 
 
