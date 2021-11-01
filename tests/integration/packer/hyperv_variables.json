@@ -3,7 +3,6 @@
     "admin_password": "${LocalAdministratorPassword}",
 
     "dir_deploy": "${DirDeployJsonEscaped}",
-    "dir_http_user": "${DirTempJsonEscaped}/http",
     "dir_temp": "${DirTempJsonEscaped}",
 
     "product_name": "${ProductName}",

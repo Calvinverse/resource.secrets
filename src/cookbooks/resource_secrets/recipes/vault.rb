@@ -179,7 +179,7 @@ file "#{consul_template_config_path}/vault_region.hcl" do
       # command will only run if the resulting template changes. The command must
       # return within 30s (configurable), and it must have a successful exit code.
       # Consul Template is not a replacement for a process monitor or init system.
-      command = "/bin/bash -c 'chown #{vault_user}:#{node['hashicorp-vault']['service_group']} #{vault_config_path}/#{vault_region_file} && systemctl restart vault'"
+      command = "/bin/bash -c '\\"chown #{vault_user}:#{node['hashicorp-vault']['service_group']} #{vault_config_path}/#{vault_region_file} && systemctl restart vault\\"'"
 
       # This is the maximum amount of time to wait for the optional command to
       # return. Default is 30s.

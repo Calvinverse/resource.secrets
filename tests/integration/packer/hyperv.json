@@ -4,7 +4,6 @@
         "admin_password": "admin",
 
         "dir_deploy": null,
-        "dir_http_user": null,
         "dir_temp": null,
 
         "product_name": "not_really_a_product_name",
@@ -27,9 +26,6 @@
             "generation": 2,
             "guest_additions_mode": "disable",
             "headless": true,
-            "http_directory": "{{ user `dir_http_user` }}",
-            "http_port_min": 8150,
-            "http_port_max": 8160,
             "memory": "{{ user `vm_ram_size_in_mb` }}",
             "output_directory": "{{ user `dir_temp` }}/test-{{ user `vm_name` }}",
             "secondary_iso_images": [
